@@ -1,4 +1,5 @@
 import sys
+from functools import partial
 from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QImage, QPainter, QPen
 from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QMenu, QMenuBar, QFileDialog
@@ -43,47 +44,47 @@ class Window(QMainWindow):
         threepxAction = QAction("3px", self)
         threepxAction.setShortcut("Ctrl+T")
         brushMenu.addAction(threepxAction)
-        threepxAction.triggered.connect(self.threePx)
+        threepxAction.triggered.connect(partial(self.brush_size, 3))
 
         fivepxAction = QAction("5px", self)
         fivepxAction.setShortcut("Ctrl+F")
         brushMenu.addAction(fivepxAction)
-        fivepxAction.triggered.connect(self.fivePx)
+        fivepxAction.triggered.connect(partial(self.brush_size, 5))
 
         sevenpxAction = QAction("7px", self)
         sevenpxAction.setShortcut("Ctrl+S")
         brushMenu.addAction(sevenpxAction)
-        sevenpxAction.triggered.connect(self.sevenPx)
+        sevenpxAction.triggered.connect(partial(self.brush_size, 7))
 
         ninepxAction = QAction("9px", self)
         ninepxAction.setShortcut("Ctrl+N")
         brushMenu.addAction(ninepxAction)
-        ninepxAction.triggered.connect(self.ninePx)
+        ninepxAction.triggered.connect(partial(self.brush_size, 9))
 
         blackAction = QAction("Black", self)
         blackAction.setShortcut("Ctrl+B")
         brushColor.addAction(blackAction)
-        blackAction.triggered.connect(self.blackColor)
+        blackAction.triggered.connect(partial(self.brush_color, Qt.black))
 
         whiteAction = QAction("White", self)
         whiteAction.setShortcut("Ctrl+W")
         brushColor.addAction(whiteAction)
-        whiteAction.triggered.connect(self.whiteColor)
+        whiteAction.triggered.connect(partial(self.brush_color, Qt.white))
 
         redAction = QAction("Red", self)
         redAction.setShortcut("Ctrl+R")
         brushColor.addAction(redAction)
-        redAction.triggered.connect(self.redColor)
+        redAction.triggered.connect(partial(self.brush_color, Qt.red))
 
         greenAction = QAction("Green", self)
         greenAction.setShortcut("Ctrl+G")
         brushColor.addAction(greenAction)
-        greenAction.triggered.connect(self.greenColor)
+        greenAction.triggered.connect(partial(self.brush_color, Qt.green))
 
         blueAction = QAction("Blue", self)
         blueAction.setShortcut("Ctrl+B")
         brushColor.addAction(blueAction)
-        blueAction.triggered.connect(self.blueColor)
+        blueAction.triggered.connect(partial(self.brush_color, Qt.blue))
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
@@ -116,32 +117,11 @@ class Window(QMainWindow):
         self.image.fill(Qt.white)
         self.update()
 
-    def threePx(self):
-        self.brushSize = 3
+    def brush_size(self, size):
+        self.brushSize = size
 
-    def fivePx(self):
-        self.brushSize = 5
-
-    def sevenPx(self):
-        self.brushSize = 7
-
-    def ninePx(self):
-        self.brushSize = 9
-
-    def blackColor(self):
-        self.brushColor = Qt.black
-
-    def whiteColor(self):
-        self.brushColor = Qt.white
-
-    def redColor(self):
-        self.brushColor = Qt.red
-
-    def greenColor(self):
-        self.brushColor = Qt.green
-
-    def blueColor(self):
-        self.brushColor = Qt.blue
+    def brush_color(self, color):
+        self.brushColor = color
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
